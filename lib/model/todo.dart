@@ -6,10 +6,11 @@ class ToDo {
   ToDo({this.id, this.todoText, this.isDone = false});
 
   static List<ToDo> todoList = [
-    ToDo(id: '1', todoText: 'Yapilacaklar ', isDone: true),
-    ToDo(id: '2', todoText: 'Yapilacaklar ', isDone: true),
-    ToDo(id: '3', todoText: 'Yapilacaklar '),
-    ToDo(id: '4', todoText: 'Yapilacaklar '),
-    ToDo(id: '5', todoText: 'Yapilacaklar '),
+    ToDo(id: '01', todoText: 'Yapialcaklar', isDone: true),
+    ToDo(id: '02', todoText: 'Yapialcaklar', isDone: true),
+    ToDo(id: '03', todoText: 'Yapialcaklar'),
+    ToDo(id: '04', todoText: 'Yapialcaklar'),
+    ToDo(id: '05', todoText: 'Yapialcaklar'),
+    ToDo(id: '05', todoText: 'Yapialcaklar'),
   ];
 }
