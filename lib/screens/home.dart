@@ -11,49 +11,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final todosList = ToDo.todoList;
   final _todoController = TextEditingController();
-  List<ToDo> _foundToDo = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _foundToDo = todosList;
-  }
-
-  void _handleToDoChange(ToDo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
-
-  void _deleteToDoItem(String id) {
-    setState(() {
-      todosList.removeWhere((element) => element.id == id);
-    });
-  }
-
-  void _addToDoItem(String toDo) {
-    setState(() {
-      todosList.add(
-        ToDo(id: DateTime.now().millisecondsSinceEpoch.toString(), todoText: toDo),
-      );
-    });
-    _todoController.clear();
-  }
-
-  void _runFilter(String enteredKeyword) {
-    List<ToDo> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = todosList;
-    } else {
-      results =
-          todosList.where((element) => element.todoText!.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
-    }
-    setState(() {
-      _foundToDo = results;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +39,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        for (ToDo todoo in _foundToDo.reversed)
-                          TodoItem(
-                            todo: todoo,
-                            onToDoChanged: _handleToDoChange,
-                            onDeleteItem: _deleteToDoItem,
-                          )
+                        TodoItem()
                       ],
                     ),
                   ),
@@ -122,9 +75,7 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: IconButton(
-                    onPressed: () {
-                      _addToDoItem(_todoController.text);
-                    },
+                    onPressed: () {},
                     icon: Icon(Icons.add),
                     iconSize: 35,
                     color: Colors.white,
@@ -146,7 +97,6 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
-        onChanged: (value) => _runFilter(value),
         decoration: InputDecoration(
           prefixIconConstraints: BoxConstraints(maxHeight: 20, minWidth: 25),
           prefixIcon: Icon(
