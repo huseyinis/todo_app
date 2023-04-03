@@ -17,6 +17,7 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 5),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
