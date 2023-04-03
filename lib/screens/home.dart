@@ -11,47 +11,49 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final todosList = ToDo.todoList;
+  final List<ToDo> todosList = ToDo.todoList;
   final _todoController = TextEditingController();
-  List<ToDo> _foundToDo = [];
+
+  List<ToDo> _foundTodo = [];
 
   @override
   void initState() {
+    _foundTodo = todosList;
     super.initState();
-    _foundToDo = todosList;
   }
 
-  void _handleToDoChange(ToDo todo) {
+  void _handleTodoChange(ToDo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
     });
   }
 
-  void _deleteToDoItem(String id) {
+  void _onDeleteItem(String id) {
     setState(() {
-      todosList.removeWhere((element) => element.id == id);
+      todosList.removeWhere((item) => item.id == id);
     });
   }
 
-  void _addToDoItem(String toDo) {
+  void _addTodoItem(String todo) {
     setState(() {
       todosList.add(
-        ToDo(id: DateTime.now().millisecondsSinceEpoch.toString(), todoText: toDo),
+        ToDo(id: DateTime.now().millisecondsSinceEpoch.toString(), todoText: todo),
       );
     });
     _todoController.clear();
   }
 
   void _runFilter(String enteredKeyword) {
-    List<ToDo> results = [];
+    List<ToDo> result = [];
     if (enteredKeyword.isEmpty) {
-      results = todosList;
+      result = todosList;
     } else {
-      results =
+      result =
           todosList.where((element) => element.todoText!.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
     }
+
     setState(() {
-      _foundToDo = results;
+      _foundTodo = result;
     });
   }
 
@@ -81,11 +83,11 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        for (ToDo todoo in _foundToDo.reversed)
+                        for (ToDo todoo in _foundTodo.reversed)
                           TodoItem(
                             todo: todoo,
-                            onToDoChanged: _handleToDoChange,
-                            onDeleteItem: _deleteToDoItem,
+                            onTodoChange: _handleTodoChange,
+                            onDeleteItem: _onDeleteItem,
                           )
                       ],
                     ),
@@ -123,7 +125,7 @@ class _HomeState extends State<Home> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      _addToDoItem(_todoController.text);
+                      _addTodoItem(_todoController.text);
                     },
                     icon: Icon(Icons.add),
                     iconSize: 35,

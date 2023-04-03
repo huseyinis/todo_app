@@ -8,11 +8,11 @@ class TodoItem extends StatelessWidget {
   TodoItem({
     Key? key,
     required this.todo,
-    required this.onToDoChanged,
+    required this.onTodoChange,
     required this.onDeleteItem,
   }) : super(key: key);
   final ToDo todo;
-  final Function onToDoChanged;
+  final Function onTodoChange;
   final Function onDeleteItem;
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class TodoItem extends StatelessWidget {
         ),
         tileColor: Colors.white,
         onTap: () {
-          onToDoChanged(todo);
+          onTodoChange(todo);
         },
         title: Text(
           todo.todoText!,
