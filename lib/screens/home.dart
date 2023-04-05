@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:todo_app/constants/colors.dart';
+import 'package:todo_app/constants/database.dart';
 import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
@@ -11,14 +14,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<ToDo> todosList = ToDo.todoList;
+//reference the hive box
+  final _myBox = Hive.box('myBox');
+  ToDoDataBase db = ToDoDataBase();
   final _todoController = TextEditingController();
 
   List<ToDo> _foundTodo = [];
 
   @override
   void initState() {
-    _foundTodo = todosList;
+    //if this is the 1st time ever opening the app, then create default data
+    if (_myBox.get('TODOLIST') == null) {
+      db.createInitialData();
+    } else {
+      //there already exist data
+      db.loadData();
+    }
+    _foundTodo = db.dbToDoList;
     super.initState();
   }
 
@@ -26,30 +38,35 @@ class _HomeState extends State<Home> {
     setState(() {
       todo.isDone = !todo.isDone;
     });
+    db.updateDataBase();
   }
 
   void _onDeleteItem(String id) {
     setState(() {
-      todosList.removeWhere((item) => item.id == id);
+      db.dbToDoList.removeWhere((item) => item.id == id);
     });
+    db.updateDataBase();
   }
 
   void _addTodoItem(String todo) {
     setState(() {
-      todosList.add(
+      db.dbToDoList.add(
         ToDo(id: DateTime.now().millisecondsSinceEpoch.toString(), todoText: todo),
       );
     });
+    db.updateDataBase();
+
     _todoController.clear();
   }
 
   void _runFilter(String enteredKeyword) {
     List<ToDo> result = [];
     if (enteredKeyword.isEmpty) {
-      result = todosList;
+      result = db.dbToDoList;
     } else {
-      result =
-          todosList.where((element) => element.todoText!.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      result = db.dbToDoList
+          .where((element) => element.todoText!.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
     }
 
     setState(() {
