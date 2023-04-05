@@ -4,7 +4,7 @@ import 'package:todo_app/model/todo.dart';
 class ToDoDataBase {
   List<ToDo> dbToDoList = [];
   //reference our box
-  final _myBox = Hive.box('myBox');
+  final _myBox = Hive.box('mybox');
 
 //run this method if this is the 1st time  ever opening this app
   void createInitialData() {
@@ -13,12 +13,12 @@ class ToDoDataBase {
 
   //load the data from database
   void loadData() {
-    dbToDoList = _myBox.get('TODOLIST');
+    dbToDoList = _myBox.get("TODOLIST");
   }
 
   //update the database
 
   void updateDataBase() {
-    _myBox.put('TODOLIST', dbToDoList);
+    _myBox.put("TODOLIST", dbToDoList);
   }
 }

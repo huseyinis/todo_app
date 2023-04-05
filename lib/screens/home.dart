@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:todo_app/constants/colors.dart';
-import 'package:todo_app/constants/database.dart';
+import 'package:todo_app/data/database.dart';
 import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 //reference the hive box
-  final _myBox = Hive.box('myBox');
+  final _myBox = Hive.box('mybox');
   ToDoDataBase db = ToDoDataBase();
   final _todoController = TextEditingController();
 
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     //if this is the 1st time ever opening the app, then create default data
-    if (_myBox.get('TODOLIST') == null) {
+    if (_myBox.get("TODOLIST") == null) {
       db.createInitialData();
     } else {
       //there already exist data
